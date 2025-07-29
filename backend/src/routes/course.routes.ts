@@ -7,6 +7,7 @@ import {
   getCourseById,
   enrollInCourse,
 } from "../controllers/course.controller";
+import { addLessonToCourse } from "../controllers/lesson.controller";
 
 const router = Router();
 
@@ -21,5 +22,8 @@ router.post("/", protect, admin, createCourse);
 
 // Route to enroll in a course (Logged-in users only)
 router.post("/:id/enroll", protect, enrollInCourse);
+
+// Route to add a lesson to a course (Admin only)
+router.post("/:courseId/lessons", protect, admin, addLessonToCourse);
 
 export default router;
