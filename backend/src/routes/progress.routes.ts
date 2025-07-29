@@ -3,6 +3,7 @@ import { protect } from "../middlewares/auth.middleware";
 import {
   markLessonAsComplete,
   getCourseProgress,
+  submitQuizAnswers,
 } from "../controllers/progress.controller";
 
 const router = Router();
@@ -15,6 +16,12 @@ router.post(
   "/courses/:courseId/lessons/:lessonId/complete",
   protect,
   markLessonAsComplete
+);
+// Route to submit quiz answers
+router.post(
+  "/courses/:courseId/quizzes/:quizId/submit",
+  protect,
+  submitQuizAnswers
 );
 
 export default router;
