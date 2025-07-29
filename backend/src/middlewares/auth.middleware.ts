@@ -12,6 +12,8 @@ declare global {
   }
 }
 
+// Middleware to protect routes
+// This middleware checks if the user is authenticated (aDMIN or logged-in user)
 export const protect = async (
   req: Request,
   res: Response,
