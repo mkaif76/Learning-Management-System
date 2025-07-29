@@ -5,10 +5,11 @@ import {
   loginValidationRules,
   validate,
 } from "../middlewares/validation.middleware";
+import { authLimiter } from "../config/rateLimiter";
 
 const router = Router();
 
-router.post("/signup", signupValidationRules(), validate, signup);
-router.post("/login", loginValidationRules(), validate, login);
+router.post("/signup", authLimiter, signupValidationRules(), validate, signup);
+router.post("/login", authLimiter, loginValidationRules(), validate, login);
 
 export default router;

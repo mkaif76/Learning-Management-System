@@ -7,12 +7,16 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.routes";
 import courseRoutes from "./routes/course.routes";
 import progressRoutes from "./routes/progress.routes";
+import { generalLimiter } from "./config/rateLimiter";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // --- 1. Middleware ---
 app.use(express.json());
+
+// Apply rate limiting to all routes
+app.use("/api", generalLimiter);
 
 // --- 2. Database Connection ---
 const mongoUri = process.env.MONGO_URI as string;
@@ -41,5 +45,5 @@ app.use("/api/progress", progressRoutes);
 
 // --- 4. Start the Server ---
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
