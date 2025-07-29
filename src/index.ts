@@ -4,6 +4,7 @@ dotenv.config(); // This must be the first line to load .env variables
 
 import express, {Request, Response } from 'express';
 import mongoose from 'mongoose';
+import authRoutes from './routes/auth.routes'; 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,9 @@ mongoose.connect(mongoUri)
 app.get('/', (req: Request, res: Response) => {
   res.send('LMS Backend is up and running!');
 });
+
+// --- 3.1. Auth Routes ---
+app.use('/api/auth', authRoutes);
 
 
 // --- 4. Start the Server ---
