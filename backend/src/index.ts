@@ -6,6 +6,7 @@ import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.routes";
 import courseRoutes from "./routes/course.routes";
+import progressRoutes from "./routes/progress.routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/auth", authRoutes);
 // --- 3.2. Course Routes ---
 app.use("/api/courses", courseRoutes);
+// --- 3.3. Progress Routes ---
+app.use("/api/progress", progressRoutes);
 
 // --- 4. Start the Server ---
 app.listen(PORT, () => {

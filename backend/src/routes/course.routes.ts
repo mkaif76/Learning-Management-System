@@ -1,4 +1,3 @@
-// src/routes/course.routes.ts
 import { Router } from "express";
 import { protect, admin } from "../middlewares/auth.middleware";
 import {
