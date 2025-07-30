@@ -15,11 +15,27 @@ export const createCourse = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get all available courses
+// @desc    Get all available courses with pagination
 export const getAllCourses = async (req: Request, res: Response) => {
   try {
-    const courses = await Course.find({});
-    res.status(200).json(courses);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const skip = (page - 1) * limit;
+    const totalCourses = await Course.countDocuments();
+    const totalPages = Math.ceil(totalCourses / limit);
+
+    const courses = await Course.find({}).skip(skip).limit(limit);
+
+    res.status(200).json({
+      data: courses,
+      pagination: {
+        totalCourses,
+        totalPages,
+        currentPage: page,
+        limit,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
