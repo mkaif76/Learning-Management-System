@@ -138,23 +138,107 @@ Auth: None
 <img width="1277" height="754" alt="image" src="https://github.com/user-attachments/assets/4277528b-612b-4214-a981-6f3a92537a69" />
 
  Enroll in a Course (User Only)
+ First login as a user
+ <img width="1243" height="738" alt="image" src="https://github.com/user-attachments/assets/9ead2557-3321-4b00-b4b2-e332b816fb24" />
+ Save the Token
+ 
+ Endpoint: POST /api/courses/:courseId/enroll
+ Auth: Bearer <USER_TOKEN>
+ <img width="1226" height="609" alt="image" src="https://github.com/user-attachments/assets/6f8b5565-b6b3-4c41-bfa4-7cdc720dfcd2" />
 
-Step 2.3: Add a Quiz to the Course
-Method: POST
 
-URL: {{BASE_URL}}/api/courses/{{COURSE_ID}}/quizzes
+Step 2.3: Lessons & Quizzes (Admin Only)
+. Add a Lesson to a Course
+Endpoint: POST /api/courses/:courseId/lessons
 
-Authorization: Bearer ADMIN_TOKEN
+Auth: Bearer <ADMIN_TOKEN>
 
 Body (JSON):
-
 {
-    "title": "Node.js Basics Quiz",
+    "title": "Lesson 1: Introduction",
+    "videoUrl": "https://example.com/video1"
+}
+
+<img width="1184" height="771" alt="image" src="https://github.com/user-attachments/assets/7ec53604-ae23-49bb-9e07-bfcc54260e41" />
+
+ACTION: Copy the lesson _id from the response's lessons array.
+
+Add a Quiz to a Course
+Endpoint: POST /api/courses/:courseId/quizzes
+
+Auth: Bearer <ADMIN_TOKEN>
+{
+    "title": "Module 1 Quiz",
     "questions": [
         {
-            "text": "What is Node.js?",
-            "options": [{"text": "A frontend framework"}, {"text": "A runtime environment"}],
-            "correctAnswer": 1
-        },
-        {
-            "text": "What
+            "text": "What does API stand for?",
+            "options": [ { "text": "Application Programming Interface" }, { "text": "Apple Pie Inside" } ],
+            "correctAnswer": 0
+        }
+    ]
+}
+
+<img width="1224" height="782" alt="image" src="https://github.com/user-attachments/assets/177c1b89-70fc-46e0-a069-7b969c0ecc63" />
+
+ACTION: Copy the quiz _id from the response's quizzes array.
+
+Progress Tracking (User Only)
+ Mark a Lesson as Complete
+ Endpoint: POST /api/progress/courses/:courseId/lessons/:lessonId/complete
+
+ Auth: Bearer <USER_TOKEN>
+ <img width="1231" height="759" alt="image" src="https://github.com/user-attachments/assets/1e1eec8c-5a80-42bf-a403-1576281510f1" />
+
+ Submit Quiz Answers
+ Endpoint: POST /api/progress/courses/:courseId/quizzes/:quizId/submit
+
+ Auth: Bearer <USER_TOKEN>
+
+ Body (JSON):
+ {
+    "answers": [0]
+}
+
+<img width="1199" height="749" alt="image" src="https://github.com/user-attachments/assets/7570f6a4-fe0d-4497-8e95-5d0fc0e0ec3b" />
+
+Get Course Progress
+Endpoint: GET /api/progress/courses/:courseId
+
+Auth: Bearer <USER_TOKEN>
+
+Success Response: A 200 OK response showing progressPercentage, completedLessons, and all quizAttempts with their scores.
+<img width="1239" height="753" alt="image" src="https://github.com/user-attachments/assets/75a9f9d7-85fd-434b-864b-b938821a29be" />
+
+
+API Rate Limiting
+Make any API request, for example, GET /api/courses.
+
+In the Postman response window, click on the Headers tab.
+
+RateLimit-Limit: Shows the maximum number of requests allowed in the time window (e.g., 100 for general routes, 10 for auth routes).
+RateLimit-Remaining: Shows how many requests you have left. This number will decrease with each request you make.
+RateLimit-Reset: Shows the timestamp when the request count will reset.
+If you were to exceed the limit, you would receive a 429 Too Many Requests error.
+<img width="1289" height="789" alt="image" src="https://github.com/user-attachments/assets/b09a7e41-722b-4b35-a282-e309304d64b9" />
+
+Pagination
+
+The endpoint to get all courses is paginated. To test this effectively, first use your admin token to create more than 10 courses.
+Endpoint: GET /api/courses
+Auth: None
+
+You can control the output using page and limit query parameters in the URL.
+To get the first page of 10 items (default):
+GET /api/courses
+To get the second page with a limit of 5 items per page:
+GET /api/courses?page=2&limit=5
+
+<img width="1252" height="714" alt="image" src="https://github.com/user-attachments/assets/603a23f8-8104-449a-97cd-091af62dbf80" />
+
+
+
+
+
+
+
+
